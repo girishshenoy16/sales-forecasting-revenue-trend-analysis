@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Forecasting & Revenue Trend Analysis Dashboard</title>
+    <meta name="description" content="Executive-level B2B Sales Forecasting & Revenue Trend Analysis dashboard. Features interactive filters, What-If stretch target simulations, regional performance scorecards, and predictive models.">
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar: Filters and Slicers -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-group">
+                    <i class="fa-solid fa-chart-line logo-icon"></i>
+                    <h2>Executive Portal</h2>
+                </div>
+            </div>
+            
+            <div class="sidebar-divider"></div>
+            
+            <div class="filters-section">
+                <h3><i class="fa-solid fa-sliders icon-spacing"></i> Interactive Slicers</h3>
+                
+                <div class="slicers-container">
+                    <div class="filter-group">
+                        <label for="filter-year">Fiscal Year</label>
+                        <select id="filter-year" class="filter-control">
+                            <option value="All">All Years</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026 (Q1-Q2)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="filter-region">Geographic Region</label>
+                        <select id="filter-region" class="filter-control">
+                            <option value="All">All Regions</option>
+                            <option value="North America">North America</option>
+                            <option value="Europe">Europe</option>
+                            <option value="Asia-Pacific">Asia-Pacific</option>
+                            <option value="Latin America">Latin America</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="filter-category">Product Category</label>
+                        <select id="filter-category" class="filter-control">
+                            <option value="All">All Categories</option>
+                            <option value="Technology">Technology</option>
+                            <option value="Office Supplies">Office Supplies</option>
+                            <option value="Furniture">Furniture</option>
+                            <option value="Hardware">Hardware</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="filter-segment">Customer Segment</label>
+                        <select id="filter-segment" class="filter-control">
+                            <option value="All">All Segments</option>
+                            <option value="Consumer">Consumer</option>
+                            <option value="Corporate">Corporate</option>
+                            <option value="Home Office">Home Office</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="sidebar-actions">
+                    <button class="btn btn-secondary btn-reset-sidebar" onclick="resetFilters()" title="Reset Dropdown Filters">
+                        <i class="fa-solid fa-arrows-rotate"></i> Reset Filters
+                    </button>
+                    
+                    <a href="preview_report.html" target="_blank" class="btn btn-primary btn-preview-report" title="Preview Business Report">
+                        <i class="fa-solid fa-file-invoice-dollar"></i> Preview Report
+                    </a>
+                </div>
+                
+                <!-- What-If Simulation Tool -->
+                <div class="scenario-tool">
+                    <h3><i class="fa-solid fa-wand-magic-sparkles icon-spacing"></i> What-If Simulation</h3>
+                    <p class="tool-desc">Adjust stretch sales targets dynamically to see simulated rep achievement rates.</p>
+                    <div class="slider-group">
+                        <div class="slider-labels">
+                            <span>Stretch Target</span>
+                            <span id="target-stretch-val">+5%</span>
+                        </div>
+                        <input type="range" id="target-stretch-slider" min="0" max="30" value="5" class="slider-control">
+                    </div>
+                    <div class="sim-metric">
+                        <span class="sim-label">Simulated Achievement Rate:</span>
+                        <div class="sim-value-container">
+                            <span id="sim-achievement-val" class="sim-value text-green">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-divider"></div>
+            
+            <div class="sidebar-footer">
+                <div class="status-indicator">
+                    <span class="dot"></span>
+                    <span>System: Ready / Online</span>
+                </div>
+                <span>Data Engine: Cleaned & Aggregated</span>
+            </div>
+            
+
+        </aside>
+
+        <!-- Main Dashboard Dashboard Content -->
+        <main class="main-content">
+            <!-- Header Section -->
+            <header class="header">
+                <div class="header-left">
+                    <span class="header-tagline">Corporate Revenue Intelligence</span>
+                    <h1>Sales Forecasting & Revenue Trend Analysis</h1>
+                </div>
+                <div class="header-right">
+                </div>
+            </header>
+
+            <!-- Top Section: Executive KPI Cards -->
+            <section class="kpi-grid">
+                <!-- Card 1: Total Revenue -->
+                <div class="kpi-card" id="kpi-revenue">
+                    <div class="kpi-card-header">
+                        <span>TOTAL ACTUAL REVENUE</span>
+                        <i class="fa-solid fa-money-bill-trend-up kpi-icon text-blue"></i>
+                    </div>
+                    <div class="kpi-value" id="kpi-revenue-val">$0.00</div>
+                    <div class="kpi-indicator" id="kpi-revenue-sub">
+                        <i class="fa-solid fa-arrow-up text-green"></i> <span class="text-green">+0.0%</span> vs prior period
+                    </div>
+                </div>
+                
+                <!-- Card 2: Year-on-Year Growth -->
+                <div class="kpi-card" id="kpi-growth">
+                    <div class="kpi-card-header">
+                        <span>YEAR-ON-YEAR REVENUE GROWTH</span>
+                        <i class="fa-solid fa-chart-line-up kpi-icon text-gold"></i>
+                    </div>
+                    <div class="kpi-value" id="kpi-growth-val">0.0%</div>
+                    <div class="kpi-indicator" id="kpi-growth-sub">
+                        Based on rolling average
+                    </div>
+                </div>
+
+                <!-- Card 3: Forecast Accuracy -->
+                <div class="kpi-card" id="kpi-accuracy">
+                    <div class="kpi-card-header">
+                        <span class="tooltip-container">
+                            FORECAST ACCURACY %
+                            <i class="fa-solid fa-circle-info tooltip-trigger"></i>
+                            <span class="tooltip-text">
+                                <strong>Methodology:</strong><br>
+                                Weighted forecast accuracy (WAPE-based):<br>
+                                • 100 * (1 - Sum(|Actual - Forecast|) / Sum(Actual))
+                            </span>
+                        </span>
+                        <i class="fa-solid fa-bullseye kpi-icon text-purple"></i>
+                    </div>
+                    <div class="kpi-value" id="kpi-accuracy-val">0.0%</div>
+                    <div class="kpi-indicator" id="kpi-accuracy-sub">
+                        Goal: &gt;95% | Mean Absolute error
+                    </div>
+                </div>
+                
+                <!-- Card 4: Profit Margin -->
+                <div class="kpi-card" id="kpi-margin">
+                    <div class="kpi-card-header">
+                        <span>NET PROFIT MARGIN</span>
+                        <i class="fa-solid fa-percent kpi-icon text-green"></i>
+                    </div>
+                    <div class="kpi-value" id="kpi-margin-val">0.0%</div>
+                    <div class="kpi-indicator" id="kpi-margin-sub">
+                        Gross Margins maintained
+                    </div>
+                </div>
+
+                <!-- Card 5: Target Achievement -->
+                <div class="kpi-card" id="kpi-achievement">
+                    <div class="kpi-card-header">
+                        <span>TARGET ACHIEVEMENT</span>
+                        <i class="fa-solid fa-trophy kpi-icon text-orange"></i>
+                    </div>
+                    <div class="kpi-value" id="kpi-achievement-val">0.0%</div>
+                    <div class="kpi-indicator" id="kpi-achievement-sub">
+                        Goal: 100% target baseline
+                    </div>
+                </div>
+
+                <!-- Card 6: Revenue At Risk -->
+                <div class="kpi-card" id="kpi-risk">
+                    <div class="kpi-card-header">
+                        <span class="tooltip-container">
+                            REVENUE AT RISK
+                            <i class="fa-solid fa-circle-info tooltip-trigger"></i>
+                            <span class="tooltip-text">
+                                <strong>Methodology:</strong><br>
+                                Sum of all category/region target shortfalls (Target - Actual) where target quotas were missed.
+                            </span>
+                        </span>
+                        <i class="fa-solid fa-triangle-exclamation kpi-icon text-red"></i>
+                    </div>
+                    <div class="kpi-value text-red" id="kpi-risk-val">$0.00</div>
+                    <div class="kpi-indicator" id="kpi-risk-sub">
+                        From quota-miss divisions
+                    </div>
+                </div>
+
+                <!-- Card 7: Revenue Opportunity -->
+                <div class="kpi-card" id="kpi-opportunity">
+                    <div class="kpi-card-header">
+                        <span class="tooltip-container tooltip-right">
+                            REVENUE OPPORTUNITY
+                            <i class="fa-solid fa-circle-info tooltip-trigger"></i>
+                            <span class="tooltip-text">
+                                <strong>Methodology:</strong><br>
+                                Sum of potential stretch target upside (Actual * Stretch Target %) from divisions with positive YoY growth.
+                            </span>
+                        </span>
+                        <i class="fa-solid fa-hand-holding-dollar kpi-icon text-green"></i>
+                    </div>
+                    <div class="kpi-value text-green" id="kpi-opportunity-val">$0.00</div>
+                    <div class="kpi-indicator" id="kpi-opportunity-sub">
+                        Linked to stretch simulation
+                    </div>
+                </div>
+
+                <!-- Card 8: Business Health Score -->
+                <div class="kpi-card" id="kpi-health">
+                    <div class="kpi-card-header">
+                        <span class="tooltip-container tooltip-right">
+                            BUSINESS HEALTH SCORE
+                            <i class="fa-solid fa-circle-info tooltip-trigger"></i>
+                            <span class="tooltip-text">
+                                <strong>Methodology:</strong><br>
+                                • Target Achievement: 35%<br>
+                                • Forecast Accuracy: 25%<br>
+                                • Profit Margin: 20%<br>
+                                • YoY Growth: 20%
+                            </span>
+                        </span>
+                        <i class="fa-solid fa-heart-pulse kpi-icon text-purple"></i>
+                    </div>
+                    <div class="kpi-value" id="kpi-health-val">0.0</div>
+                    <div class="kpi-indicator" id="kpi-health-sub">
+                        Overall performance index
+                    </div>
+                </div>
+            </section>
+
+            <!-- Executive Summary & Priority Actions Section -->
+            <section class="executive-summary-card">
+                <div class="executive-briefing-pane">
+                    <h3><i class="fa-solid fa-briefcase icon-spacing text-blue"></i> Executive Briefing</h3>
+                    <div class="briefing-grid">
+                        <div class="briefing-item highlight-status">
+                            <span class="briefing-label">Business Status</span>
+                            <span class="briefing-value" id="briefing-business-status">--</span>
+                        </div>
+                        <div class="briefing-item">
+                            <span class="briefing-label">YoY Growth Status:</span>
+                            <span class="briefing-value text-green" id="briefing-growth-val">--</span>
+                        </div>
+                        <div class="briefing-item">
+                            <span class="briefing-label">Forecast Confidence:</span>
+                            <span class="briefing-value" id="briefing-forecast-confidence">--</span>
+                        </div>
+                        <div class="briefing-item">
+                            <span class="briefing-label">Revenue Trend Direction:</span>
+                            <span class="briefing-value" id="briefing-trend-direction">--</span>
+                        </div>
+                        <div class="briefing-item">
+                            <span class="briefing-label">Risk Level:</span>
+                            <span class="briefing-value" id="briefing-risk-level">--</span>
+                        </div>
+                        <div class="briefing-item highlight-driver">
+                            <span class="briefing-label">Biggest Growth Driver:</span>
+                            <span class="briefing-value text-blue" id="briefing-growth-driver">--</span>
+                        </div>
+                        <div class="briefing-item highlight-risk">
+                            <span class="briefing-label">Biggest Risk:</span>
+                            <span class="briefing-value text-red" id="briefing-revenue-risk">--</span>
+                        </div>
+                        <div class="briefing-item highlight-action">
+                            <span class="briefing-label">Recommended Action:</span>
+                            <span class="briefing-value text-gold" id="briefing-rec-action">--</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="priority-actions-pane">
+                    <h3><i class="fa-solid fa-list-check icon-spacing text-gold"></i> Top 3 Priority Actions</h3>
+                    <div class="priority-grid">
+                        <div class="priority-item">
+                            <span class="priority-num">1</span>
+                            <div class="priority-content">
+                                <span class="priority-label">Highest Growth Opportunity:</span>
+                                <span class="priority-text" id="priority-growth-opp">--</span>
+                            </div>
+                        </div>
+                        <div class="priority-item">
+                            <span class="priority-num">2</span>
+                            <div class="priority-content">
+                                <span class="priority-label">Highest Revenue Risk:</span>
+                                <span class="priority-text text-red" id="priority-rev-risk">--</span>
+                            </div>
+                        </div>
+                        <div class="priority-item">
+                            <span class="priority-num">3</span>
+                            <div class="priority-content">
+                                <span class="priority-label">Most Recommended Action:</span>
+                                <span class="priority-text text-blue" id="priority-rec-act">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Middle Section: Revenue Trends & Forecast Analysis -->
+            <section class="charts-row middle-charts">
+                <!-- Trend Chart -->
+                <div class="chart-card large-chart">
+                    <div class="chart-header">
+                        <h3><i class="fa-solid fa-timeline text-blue icon-spacing"></i> Monthly Revenue Trends & Growth</h3>
+                        <span class="badge badge-info">Actuals Timeline</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-revenue-trend"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Forecast vs Actual Chart -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><i class="fa-solid fa-scale-balanced text-purple icon-spacing"></i> Forecasted vs Actual Revenue</h3>
+                        <span class="badge badge-purple">Variance Evaluation</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-forecast-actual"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bottom Section: Row 4 - Category Performance & Regional Scorecard Table -->
+            <section class="charts-row bottom-row4">
+                <!-- Product Category Performance -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><i class="fa-solid fa-tags text-gold icon-spacing"></i> Revenue & Profit by Category</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-product-category"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Regional Performance Scorecard -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><i class="fa-solid fa-table text-blue icon-spacing"></i> Regional Performance Scorecard</h3>
+                        <span class="badge badge-info">Regional Performance</span>
+                    </div>
+                    <div class="scorecard-container">
+                        <table class="scorecard-table">
+                            <thead>
+                                <tr>
+                                    <th>Region</th>
+                                    <th class="text-right">Revenue</th>
+                                    <th class="text-right">Growth %</th>
+                                    <th class="text-right">Profit Margin</th>
+                                    <th class="text-right">Target Ach. %</th>
+                                </tr>
+                            </thead>
+                            <tbody id="regional-scorecard-tbody">
+                                <!-- Dynamic scorecard rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bottom Section: Row 5 - Future Revenue Forecast & Performance Diagnostics -->
+            <section class="charts-row bottom-row5">
+                <!-- Future Revenue Forecast Card -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><i class="fa-solid fa-chart-line text-purple icon-spacing"></i> Future Revenue Forecast</h3>
+                        <span class="badge badge-purple" id="forecast-method-badge">Method: Triple Exp. Smoothing</span>
+                    </div>
+                    <div class="forecast-container">
+                        <div class="forecast-grid">
+                            <div class="forecast-box">
+                                <span class="forecast-label">Next Quarter Forecast (Q3)</span>
+                                <span class="forecast-val" id="forecast-q3-val">$0.00</span>
+                            </div>
+                            <div class="forecast-box">
+                                <span class="forecast-label">Next Year Forecast (FY2027)</span>
+                                <span class="forecast-val" id="forecast-fy-val">$0.00</span>
+                            </div>
+                        </div>
+                        <div class="scenario-grid">
+                            <div class="scenario-box best-case">
+                                <span class="scenario-label">Best Case Scenario (+15%)</span>
+                                <span class="scenario-val" id="scenario-best-val">$0.00</span>
+                            </div>
+                            <div class="scenario-box worst-case">
+                                <span class="scenario-label">Worst Case Scenario (-15%)</span>
+                                <span class="scenario-val" id="scenario-worst-val">$0.00</span>
+                            </div>
+                        </div>
+                        <div class="forecast-footer-notes">
+                            <strong>Model Method:</strong> Prophet &amp; Holt-Winters Time Series Forecasting.<br>
+                            <strong>Key Assumptions:</strong> Baseline trend assumes +6.2% annual organic growth; Best/Worst cases model a ±15% variance based on seasonal B2B purchasing cycles and target stretch simulations.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Diagnostics & Underperforming Leakage Card -->
+                <div class="chart-card diagnostic-card">
+                    <div class="chart-header">
+                        <h3><i class="fa-solid fa-circle-exclamation text-orange icon-spacing"></i> Performance Diagnostics</h3>
+                        <span class="badge badge-danger">Risk Indicators</span>
+                    </div>
+                    <div class="diagnostic-container">
+                        <div class="leakage-metric-box">
+                            <span class="leakage-label">Underperforming Areas (Targets Missed &gt;10%):</span>
+                            <ul id="leakage-list" class="leakage-list">
+                                <!-- Dynamic items here -->
+                            </ul>
+                        </div>
+                        <div class="forecast-accuracy-box">
+                            <span class="leakage-label">Forecasting Gap Analysis:</span>
+                            <div class="gap-bar-container">
+                                <div class="gap-bar-label">Max Negative Deviation:</div>
+                                <div class="gap-bar-val text-red" id="max-neg-variance">0.0%</div>
+                            </div>
+                            <div class="gap-bar-container">
+                                <div class="gap-bar-label">Max Positive Deviation:</div>
+                                <div class="gap-bar-val text-green" id="max-pos-variance">0.0%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Revenue Driver Contribution & Highlight Grid Section -->
+            <section class="drivers-row">
+                <div class="drivers-card">
+                    <div class="drivers-header">
+                        <h2><i class="fa-solid fa-gears text-gold icon-spacing"></i> Revenue Driver Contribution & Highlight Grid</h2>
+                        <span class="badge badge-warning">Diagnostics & Drivers</span>
+                    </div>
+                    <div class="drivers-top-cards">
+                        <div class="driver-highlight-card growth">
+                            <div class="dh-header">
+                                <span>TOP GROWTH DRIVER</span>
+                                <i class="fa-solid fa-arrow-trend-up text-green"></i>
+                            </div>
+                            <div class="dh-value" id="driver-growth-val">--</div>
+                            <div class="dh-sub" id="driver-growth-sub">--</div>
+                        </div>
+                        <div class="driver-highlight-card risk">
+                            <div class="dh-header">
+                                <span>TOP RISK DRIVER</span>
+                                <i class="fa-solid fa-circle-exclamation text-red"></i>
+                            </div>
+                            <div class="dh-value" id="driver-risk-val">--</div>
+                            <div class="dh-sub" id="driver-risk-sub">--</div>
+                        </div>
+                        <div class="driver-highlight-card opportunity">
+                            <div class="dh-header">
+                                <span>TOP OPPORTUNITY DRIVER</span>
+                                <i class="fa-solid fa-circle-nodes text-blue"></i>
+                            </div>
+                            <div class="dh-value" id="driver-opp-val">--</div>
+                            <div class="dh-sub" id="driver-opp-sub">--</div>
+                        </div>
+                    </div>
+                    <div class="drivers-content-grid">
+                        <div class="drivers-col">
+                            <h3>Region Contribution to Revenue Growth</h3>
+                            <div class="progress-list" id="drivers-region-list">
+                                <!-- Dynamic progress items -->
+                            </div>
+                        </div>
+                        <div class="drivers-col">
+                            <h3>Product Category Contribution to Revenue Growth</h3>
+                            <div class="progress-list" id="drivers-category-list">
+                                <!-- Dynamic progress items -->
+                            </div>
+                        </div>
+                        <div class="drivers-col">
+                            <h3>Customer Segment Contribution to Revenue Growth</h3>
+                            <div class="progress-list" id="drivers-segment-list">
+                                <!-- Dynamic progress items -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Strategic Insights & Recommendations Section -->
+            <section class="insights-row">
+                <div class="insights-card">
+                    <div class="insights-header">
+                        <h2><i class="fa-solid fa-lightbulb text-gold icon-spacing"></i> Real-time Business Insights & Recommendations</h2>
+                        <span class="badge badge-warning">Strategic Counsel</span>
+                    </div>
+                    <div class="insights-content-grid">
+                        <div class="insights-col">
+                            <h3><i class="fa-solid fa-magnifying-glass-chart text-blue icon-spacing"></i> Analytical Gaps & Opportunities</h3>
+                            <ul id="insights-opportunities-list">
+                                <!-- Dynamic Insights -->
+                            </ul>
+                        </div>
+                        <div class="insights-col">
+                            <h3><i class="fa-solid fa-bullhorn text-green icon-spacing"></i> Recommended Strategic Decisions</h3>
+                            <ul id="insights-recommendations-list">
+                                <!-- Dynamic Recommendations -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dashboard Metadata Strip -->
+            <footer class="metadata-strip">
+                <div class="meta-item">
+                    <span class="meta-label">Data Period:</span>
+                    <span class="meta-value">2021–2026</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Records Analyzed:</span>
+                    <span class="meta-value">100,000+</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Forecast Method:</span>
+                    <span class="meta-value">Holt-Winters Time Series</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Last Refresh:</span>
+                    <span class="meta-value" id="meta-last-refresh">--</span>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Pre-aggregated data script -->
+    <script src="data.js"></script>
+    <!-- Main Dashboard Controller logic -->
+    <script src="app.js"></script>
+</body>
+</html>

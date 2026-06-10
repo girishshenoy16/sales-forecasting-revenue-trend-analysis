@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic Sales Forecasting Report Preview</title>
+    <meta name="description" content="Strategic B2B Sales Forecasting & Revenue Performance Report. Details regional target achievements, demand forecasting models, and margin improvement directiveness.">
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Markdown Parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #F1F5F9;
+            --bg-card: #FFFFFF;
+            --border-color: #E2E8F0;
+            --text-primary: #0F172A;
+            --text-secondary: #475569;
+            --accent-blue: #2563EB;
+            --accent-blue-hover: #1D4ED8;
+            --accent-gold: #D97706;
+            --font-heading: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            line-height: 1.7;
+            padding: 40px 20px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 40px 50px;
+            box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.05), 0 4px 6px -2px rgba(15, 23, 42, 0.02);
+            position: relative;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-blue);
+            color: #FFFFFF;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-blue-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--bg-primary);
+        }
+
+        /* Markdown Styles */
+        .markdown-body h1 {
+            font-family: var(--font-heading);
+            font-size: 28px;
+            margin-top: 0;
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .markdown-body h2 {
+            font-family: var(--font-heading);
+            font-size: 20px;
+            margin-top: 32px;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .markdown-body h3 {
+            font-family: var(--font-heading);
+            font-size: 15px;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .markdown-body p {
+            margin-top: 0;
+            margin-bottom: 16px;
+            color: var(--text-secondary);
+        }
+
+        .markdown-body hr {
+            height: 1px;
+            background-color: var(--border-color);
+            border: none;
+            margin: 24px 0;
+        }
+
+        .markdown-body ul, .markdown-body ol {
+            margin-top: 0;
+            margin-bottom: 16px;
+            padding-left: 20px;
+            color: var(--text-secondary);
+        }
+
+        .markdown-body ul li, .markdown-body ol li {
+            margin-bottom: 8px;
+        }
+
+        .alert-box p, .alert-box ul, .alert-box ol {
+            color: inherit !important;
+        }
+        .alert-box strong {
+            color: inherit !important;
+        }
+
+        .markdown-body strong {
+            color: var(--text-primary);
+        }
+
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            margin-bottom: 24px;
+            font-size: 13px;
+        }
+
+        .markdown-body th {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-weight: 600;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .markdown-body td {
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .markdown-body tr:nth-child(even) {
+            background-color: rgba(241, 245, 249, 0.5);
+        }
+
+        .markdown-body pre {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 16px;
+            overflow-x: auto;
+            margin-top: 16px;
+            margin-bottom: 24px;
+        }
+
+        .markdown-body code {
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            font-size: 13px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .error-message {
+            background-color: rgba(220, 38, 38, 0.08);
+            border: 1px solid #DC2626;
+            color: #DC2626;
+            padding: 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* GitHub-style Alerts / Callouts */
+        .alert-box {
+            margin: 24px 0;
+            padding: 16px 20px;
+            border-radius: 8px;
+            border-left: 4px solid #94a3b8;
+            font-size: 13.5px;
+            line-height: 1.6;
+        }
+        .alert-box .alert-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .alert-box .alert-body {
+            color: inherit;
+        }
+        .alert-box .alert-body p:last-child {
+            margin-bottom: 0;
+        }
+        .alert-box .alert-body ul, .alert-box .alert-body ol {
+            margin-bottom: 0;
+        }
+        .alert-important {
+            background-color: rgba(220, 38, 38, 0.03);
+            border-color: #DC2626;
+            color: #991B1B;
+        }
+        .alert-important .alert-header {
+            color: #DC2626;
+        }
+        .alert-note {
+            background-color: rgba(37, 99, 235, 0.03);
+            border-color: #2563EB;
+            color: #1E40AF;
+        }
+        .alert-note .alert-header {
+            color: #2563EB;
+        }
+        .alert-warning {
+            background-color: rgba(217, 119, 6, 0.03);
+            border-color: #D97706;
+            color: #92400E;
+        }
+        .alert-warning .alert-header {
+            color: #D97706;
+        }
+        .alert-tip {
+            background-color: rgba(5, 150, 105, 0.03);
+            border-color: #059669;
+            color: #065F46;
+        }
+        .alert-tip .alert-header {
+            color: #059669;
+        }
+        .alert-caution {
+            background-color: rgba(234, 88, 12, 0.03);
+            border-color: #EA580C;
+            color: #9A3412;
+        }
+        .alert-caution .alert-header {
+            color: #EA580C;
+        }
+
+        /* Print Layout Adjustments */
+        @media print {
+            body {
+                background-color: #FFFFFF !important;
+                color: #000000 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .container {
+                max-width: 100% !important;
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                background-color: #FFFFFF !important;
+            }
+            .header-actions {
+                display: none !important;
+            }
+            .alert-box {
+                page-break-inside: avoid;
+                background-color: #F8FAFC !important;
+                border-left-color: #64748B !important;
+                color: #0F172A !important;
+            }
+            .alert-important .alert-header,
+            .alert-note .alert-header,
+            .alert-warning .alert-header,
+            .alert-tip .alert-header,
+            .alert-caution .alert-header {
+                color: #0F172A !important;
+            }
+            tr {
+                page-break-inside: avoid;
+            }
+            h1, h2, h3 {
+                page-break-after: avoid;
+            }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px 15px;
+                border-radius: 8px;
+            }
+            .header-actions {
+                flex-direction: column;
+                gap: 12px;
+                align-items: stretch;
+            }
+            .btn {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation / Header -->
+        <div class="header-actions">
+            <button class="btn btn-secondary" id="btn-close-preview" onclick="window.close()">
+                <i class="fa-solid fa-arrow-left"></i> Close Preview
+            </button>
+            <button class="btn btn-primary" id="btn-print-report" onclick="window.print()">
+                <i class="fa-solid fa-print"></i> Print Report
+            </button>
+        </div>
+
+        <!-- Rendered Report Content -->
+        <div id="content" class="markdown-body">
+            <p class="text-center"><i class="fa-solid fa-spinner fa-spin icon-spacing"></i> Loading strategic analysis report...</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch('business_analysis_report.md')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(markdownText => {
+                    const preprocessed = preprocessMarkdown(markdownText);
+                    document.getElementById('content').innerHTML = marked.parse(preprocessed);
+                })
+                .catch(error => {
+                    console.error("Error fetching report:", error);
+                    document.getElementById('content').innerHTML = `
+                        <div class="error-message">
+                            <strong><i class="fa-solid fa-circle-exclamation"></i> Preview Render Error</strong><br><br>
+                            This browser security block occurs when opening HTML files directly from your local filesystem using the <code>file://</code> protocol.
+                            <br><br>
+                            <strong>To view this report on your local machine:</strong><br>
+                            1. Run a local development server in this directory (e.g. run <code>python -m http.server 8000</code>).<br>
+                            2. Open <code>http://localhost:8000/docs/preview_report.html</code> in your browser.<br><br>
+                            <strong>On GitHub Pages:</strong><br>
+                            This button will work <strong>automatically</strong> and render beautifully without any configuration once the project is pushed and deployed!
+                        </div>
+                    `;
+                });
+        });
+
+        function preprocessMarkdown(text) {
+            const lines = text.split('\n');
+            const result = [];
+            let inAlert = false;
+            let alertType = '';
+            let alertContent = [];
+            
+            for (let i = 0; i < lines.length; i++) {
+                let rawLine = lines[i];
+                let trimmedLine = rawLine.trim();
+                
+                if (trimmedLine.startsWith('> [!')) {
+                    const match = trimmedLine.match(/^>\s*\[!(IMPORTANT|NOTE|WARNING|TIP|CAUTION)\]/i);
+                    if (match) {
+                        if (inAlert) {
+                            result.push(renderAlert(alertType, alertContent.join('\n')));
+                        }
+                        inAlert = true;
+                        alertType = match[1].toUpperCase();
+                        alertContent = [];
+                        continue;
+                    }
+                }
+                
+                if (inAlert) {
+                    if (trimmedLine.startsWith('>')) {
+                        let contentLine = trimmedLine.replace(/^>\s?/, '');
+                        alertContent.push(contentLine);
+                    } else {
+                        inAlert = false;
+                        result.push(renderAlert(alertType, alertContent.join('\n')));
+                        result.push(rawLine);
+                    }
+                } else {
+                    result.push(rawLine);
+                }
+            }
+            if (inAlert) {
+                result.push(renderAlert(alertType, alertContent.join('\n')));
+            }
+            return result.join('\n');
+        }
+
+        function renderAlert(type, content) {
+            let icon = 'fa-circle-info';
+            let title = 'NOTE';
+            if (type === 'IMPORTANT') {
+                icon = 'fa-circle-exclamation';
+                title = 'IMPORTANT DIRECTIVE';
+            } else if (type === 'WARNING') {
+                icon = 'fa-triangle-exclamation';
+                title = 'WARNING';
+            } else if (type === 'TIP') {
+                icon = 'fa-lightbulb';
+                title = 'STRATEGIC TIP';
+            } else if (type === 'CAUTION') {
+                icon = 'fa-hand';
+                title = 'CAUTION';
+            }
+            
+            const parsedContent = marked.parse(content);
+            
+            return `<div class="alert-box alert-${type.toLowerCase()}">` +
+                `<div class="alert-header">` +
+                    `<i class="fa-solid ${icon}"></i> ` +
+                    `<span>${title}</span>` +
+                `</div>` +
+                `<div class="alert-body">${parsedContent}</div>` +
+            `</div>`;
+        }
+    </script>
+</body>
+</html>
