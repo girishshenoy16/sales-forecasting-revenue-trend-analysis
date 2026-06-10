@@ -759,7 +759,7 @@ function getGroupedData(data) {
 function renderExecutiveSummary(metrics, data) {
     // 1. Growth Status
     const growthValEl = document.getElementById("briefing-growth-val");
-    growthValEl.textContent = `${metrics.yoyGrowth.toFixed(1)}% YoY`;
+    growthValEl.textContent = `${metrics.yoyGrowth.toFixed(1)}%`;
     if (metrics.yoyGrowth >= 0) {
         growthValEl.className = "briefing-value text-green";
     } else {
