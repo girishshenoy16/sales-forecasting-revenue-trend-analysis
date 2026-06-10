@@ -1,7 +1,9 @@
 # Sales Forecasting & Revenue Trend Analysis Dashboard
 
 📅 **Data Coverage**: 2021 – Q2 2026 (105,000 unique records)  
+
 💻 **Interactive Portal**: [Explore Live Dashboard (GitHub Pages)](https://your-username.github.io/sales-forecasting-revenue-trend-analysis/)  
+
 📂 **Executive Deliverable**: [Strategic Business Analysis Report (Print/PDF)](https://your-username.github.io/sales-forecasting-revenue-trend-analysis/preview_report.html)
 
 ---
