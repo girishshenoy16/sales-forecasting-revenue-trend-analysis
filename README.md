@@ -42,6 +42,7 @@ C-suite leadership faced critical operational friction due to a lack of centrali
 Below is the directory layout for this repository:
 
 ```text
+sales-forecasting-revenue-trend-analysis/
 ├── requirements.txt                    # Python package dependencies
 ├── .gitignore                          # Git ignore configuration
 ├── data/
