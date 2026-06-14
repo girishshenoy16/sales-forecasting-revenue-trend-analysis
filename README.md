@@ -134,7 +134,7 @@ The dashboard uses historical B2B sales trends (Jan 2021 – Jun 2026) to projec
 To run the pipeline and explore the dashboard locally:
 ```bash
 # Clone the project and install requirements
-git clone https://github.com/your-username/sales-forecasting-revenue-trend-analysis.git
+git clone https://github.com/girishshenoy16/sales-forecasting-revenue-trend-analysis.git
 cd sales-forecasting-revenue-trend-analysis
 python -m venv .venv
 source .venv/bin/activate  # On Windows use: .venv\Scripts\activate
